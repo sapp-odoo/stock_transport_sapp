@@ -1,0 +1,3 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_fleet_vehical_model_category,fleet.vehical.model.category,fleet.model_fleet_vehicle_model_category,base.group_user,1,1,1,1
+access_dock,dock,model_dock,base.group_user,1,1,1,1

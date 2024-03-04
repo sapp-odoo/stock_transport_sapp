@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="stock_picking_batch_views_tree" model="ir.ui.view">
+        <field name="name">stock.picking.batch.form</field>
+        <field name="model">stock.picking.batch</field>
+        <field name="inherit_id" ref="stock_picking_batch.stock_picking_batch_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='scheduled_date']" position="replace">
+                <field name="dock_id"/>
+                <field name="vehicle_id" placeholder="Opel/Astra/1-ACK-205"/>
+                <field name="vehicle_category_id" placeholder="Break (34kg, 342m3)"/>
+                <field name="weight" invisible="not vehicle_category_id" widget="progressbar"/>
+                <field name="volume" invisible="not vehicle_category_id" widget="progressbar"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="stock_picking_batch.stock_picking_batch_action" model="ir.actions.act_window">
+        <field name="view_mode">tree,kanban,form,graph,gantt</field>
+        <field name="context">{'graph_groupbys': ['scheduled_date', 'vehicle_category_id'],}</field>
+    </record>
+
+    <record id="view_stock_picking_batch_graph" model="ir.ui.view">
+        <field name="name">stock.picking.batch.graph</field>
+        <field name="model">stock.picking.batch</field>
+        <field name="arch" type="xml">
+            <graph type="bar" sample="1" stacked="1">
+                <field name="weight"/>
+                <field name="volume"/>
+                <field name="move_line_ids"/>
+            </graph>
+        </field>
+   </record>
+
+   <record id="view_stock_picking_batch_gantt" model="ir.ui.view">
+        <field name="name">view.stock.picking.batch.gantt</field>
+        <field name="model">stock.picking.batch</field>
+        <field name="arch" type="xml">
+            <gantt
+            date_start="create_date"
+            date_stop="scheduled_date"
+            default_group_by="dock_id"
+            >
+                <field name="weight"/>
+                <field name="volume"/>
+            </gantt>
+        </field>
+    </record>
+    
+    <!-- <record id="stock_picking_views_tree_inherit" model="ir.ui.view">
+        <field name="name">stock.picking.views.tree.inherit</field>
+        <field name="model">stock.picking</field>
+        <field name="inherit_id" ref="stock.vpicktree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='picking_type_id']" position="after">
+                <field name="volume"/>
+            </xpath>
+        </field>
+    </record> -->
+</odoo>
